@@ -1,7 +1,5 @@
 package br.com.devesuperior.movieflix.service;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -14,8 +12,6 @@ import br.com.devesuperior.movieflix.repositories.UserRepository;
 @Service
 public class UserService implements UserDetailsService {
 	
-	private static Logger logger = LoggerFactory.getLogger(UserService.class);
-		
 	@Autowired
 	private UserRepository repository;
 	
@@ -23,7 +19,6 @@ public class UserService implements UserDetailsService {
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		User user = repository.findByEmail(username);
 		if(user == null){
-			logger.error("User not found", username);
 			throw new UsernameNotFoundException("Email not found");
 		}
 		return user;
