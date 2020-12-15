@@ -76,6 +76,22 @@ public class GenreResourceIT {
 		result.andExpect(status().isOk());
 		Assertions.assertEquals(countGenres, getGenres(result).length);
 	}
+	
+	@Test
+	public void findAllShouldReturnAllGenresWhenMemerAuthenticated() throws Exception {
+
+		String accessToken = authenticationUtil.obtainAccessToken(memberUsername, memberPassword);
+		
+		long countGenres = genreRepository.count();		
+
+		ResultActions result =
+				mockMvc.perform(get("/genres")
+					.header("Authorization", "Bearer " + accessToken)
+					.contentType(MediaType.APPLICATION_JSON));
+
+		result.andExpect(status().isOk());
+		Assertions.assertEquals(countGenres, getGenres(result).length);
+	}
 
 
 	private GenreDTO[] getGenres(ResultActions result) throws Exception {
